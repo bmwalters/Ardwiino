@@ -59,4 +59,6 @@ void Direct::init() {
 #endif
   IO::pinMode(PIN_DPAD_LED, OUTPUT);
   IO::pinMode(PIN_BOARD_LED, OUTPUT);
+
+  IO::digitalWrite(PIN_DPAD_LED, 0);
 }

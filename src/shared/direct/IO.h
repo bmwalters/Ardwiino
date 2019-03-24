@@ -37,6 +37,7 @@ extern const uint8_t PROGMEM analog_pin_to_channel_PGM[];
 class IO {
 public:
   static int digitalRead(uint8_t pin);
+  static void digitalWrite(uint8_t pin, uint8_t val);
   static int analogRead(uint8_t pin);
   static void pinMode(uint8_t pin, uint8_t mode);
   static void enableADC();

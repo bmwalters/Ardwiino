@@ -25,6 +25,11 @@ const USB_Descriptor_Device_t PROGMEM DeviceDescriptor = {
     .Class = USB_CSCP_NoDeviceClass,
     .SubClass = USB_CSCP_NoDeviceSubclass,
     .Protocol = USB_CSCP_NoDeviceProtocol,
+    #elif OUTPUT_TYPE == GAMEPAD
+    .Endpoint0Size = JOYSTICK_EPSIZE,
+    .Class = USB_CSCP_NoDeviceClass,
+    .SubClass = USB_CSCP_NoDeviceSubclass,
+    .Protocol = USB_CSCP_NoDeviceProtocol,
     #endif
     .VendorID = 0x1209,
     .ProductID = 0x2882,
@@ -34,9 +39,9 @@ const USB_Descriptor_Device_t PROGMEM DeviceDescriptor = {
     .ProductStrIndex = 0x02,
     .SerialNumStrIndex = 0x03,
 
-    .NumberOfConfigurations = 0x01};
-const USB_Descriptor_HIDReport_Datatype_t PROGMEM GenericReport[] = {
-    HID_DESCRIPTOR_VENDOR(0x00, 0x01, 0x02, 0x03, GENERIC_REPORT_SIZE)};
+    .NumberOfConfigurations = 0x01
+};
+
 /** Configuration descriptor structure. This descriptor, located in FLASH
  * memory, describes the usage of the device in one of its supported
  * configurations, including information about any device interfaces and
@@ -167,6 +172,90 @@ const USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor = {
                              .EndpointSize = KEYBOARD_EPSIZE,
                              .PollingIntervalMS = POLL_RATE},
 };
+#elif OUTPUT_TYPE==GAMEPAD
+
+/** HID class report descriptor. This is a special descriptor constructed with
+ * values from the USBIF HID class specification to describe the reports and
+ * capabilities of the HID device. This descriptor is parsed by the host and its
+ * contents used to determine what data (and in what encoding) the device will
+ * send, and what it may be sent back from the host. Refer to the HID
+ * specification for more details on HID report descriptors.
+ */
+#define GAMEPAD_BTN_COUNT 0x10
+const USB_Descriptor_HIDReport_Datatype_t PROGMEM GamepadReport[] = {
+            HID_RI_USAGE_PAGE(8, 0x01),                     \
+            HID_RI_USAGE(8, 0x04),                          \
+            HID_RI_COLLECTION(8, 0x01),                     \
+                HID_RI_USAGE(8, 0x01),                      \
+                HID_RI_USAGE_PAGE(8, 0x09),                 \
+                HID_RI_USAGE_MINIMUM(8, 0x01),              \
+                HID_RI_USAGE_MAXIMUM(8, GAMEPAD_BTN_COUNT), \
+                HID_RI_LOGICAL_MINIMUM(8, 0x00),            \
+                HID_RI_LOGICAL_MAXIMUM(8, 0x01),            \
+                HID_RI_REPORT_SIZE(8, 0x01),                \
+                HID_RI_REPORT_COUNT(8, GAMEPAD_BTN_COUNT),  \
+                HID_RI_INPUT(8, HID_IOF_DATA | HID_IOF_VARIABLE | HID_IOF_ABSOLUTE), \
+            HID_RI_END_COLLECTION(0)
+};
+
+/** Configuration descriptor structure. This descriptor, located in FLASH memory, describes the usage
+ *  of the device in one of its supported configurations, including information about any device interfaces
+ *  and endpoints. The descriptor is read out by the USB host during the enumeration process when selecting
+ *  a configuration so that the host may correctly communicate with the USB device.
+ */
+const USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor = {
+    .Config =
+        {
+            .Header                 = {.Size = sizeof(USB_Descriptor_Configuration_Header_t), .Type = DTYPE_Configuration},
+
+            .TotalConfigurationSize = sizeof(USB_Descriptor_Configuration_t),
+            .TotalInterfaces        = 1,
+
+            .ConfigurationNumber    = 1,
+            .ConfigurationStrIndex  = NO_DESCRIPTOR,
+
+            .ConfigAttributes       = (USB_CONFIG_ATTR_RESERVED | USB_CONFIG_ATTR_SELFPOWERED),
+
+            .MaxPowerConsumption    = USB_CONFIG_POWER_MA(500)
+        },
+
+    .HID_Interface =
+        {
+            .Header                 = {.Size = sizeof(USB_Descriptor_Interface_t), .Type = DTYPE_Interface},
+
+            .InterfaceNumber        = INTERFACE_ID_Joystick,
+            .AlternateSetting       = 0x00,
+
+            .TotalEndpoints         = 1,
+
+            .Class                  = HID_CSCP_HIDClass,
+            .SubClass               = HID_CSCP_NonBootSubclass,
+            .Protocol               = HID_CSCP_NonBootProtocol,
+
+            .InterfaceStrIndex      = NO_DESCRIPTOR
+        },
+
+    .HID_GamepadHID =
+        {
+            .Header                 = {.Size = sizeof(USB_HID_Descriptor_HID_t), .Type = HID_DTYPE_HID},
+
+            .HIDSpec                = VERSION_BCD(1,1,1),
+            .CountryCode            = 0x00,
+            .TotalReportDescriptors = 1,
+            .HIDReportType          = HID_DTYPE_Report,
+            .HIDReportLength        = sizeof(GamepadReport)
+        },
+
+    .HID_ReportINEndpoint =
+        {
+            .Header                 = {.Size = sizeof(USB_Descriptor_Endpoint_t), .Type = DTYPE_Endpoint},
+
+            .EndpointAddress        = JOYSTICK_EPADDR,
+            .Attributes             = (EP_TYPE_INTERRUPT | ENDPOINT_ATTR_NO_SYNC | ENDPOINT_USAGE_DATA),
+            .EndpointSize           = JOYSTICK_EPSIZE,
+            .PollingIntervalMS      = POLL_RATE
+        }
+};
 #endif
 
 /** Language descriptor structure. This descriptor, located in FLASH memory, is
@@ -184,7 +273,7 @@ const USB_Descriptor_String_t PROGMEM LanguageString =
  *  Descriptor.
  */
 const USB_Descriptor_String_t PROGMEM ManufacturerString =
-    USB_STRING_DESCRIPTOR(L"sanjay900");
+    USB_STRING_DESCRIPTOR(L"zerf");
 
 /** Product descriptor string. This is a Unicode string containing the product's
  * details in human readable form, and is read out upon request by the host when
@@ -194,7 +283,7 @@ const USB_Descriptor_String_t PROGMEM ProductString =
     USB_STRING_DESCRIPTOR(L"Ardwiino");
 
 const USB_Descriptor_String_t PROGMEM VersionString =
-    USB_STRING_DESCRIPTOR(L"1.2");
+    USB_STRING_DESCRIPTOR(L"1.3");
 
 const USB_OSDescriptor_t PROGMEM OSDescriptorString = {
   Header : {Size : sizeof(USB_OSDescriptor_t), Type : DTYPE_String},
@@ -300,12 +389,22 @@ that our device has a Compatible ID to provide. */
     Address = &KeyboardReport;
     Size = sizeof(KeyboardReport);
     break;
+#elif OUTPUT_TYPE==GAMEPAD
+  case HID_DTYPE_HID:
+    Address = &ConfigurationDescriptor.HID_GamepadHID;
+    Size = sizeof(USB_HID_Descriptor_HID_t);
+    break;
+  case HID_DTYPE_Report:
+    Address = &GamepadReport;
+    Size = sizeof(GamepadReport);
+    break;
 #endif
   }
 
   *DescriptorAddress = Address;
   return Size;
 }
+
 uint16_t USB_GetOSFeatureDescriptor(const uint8_t InterfaceNumber,
                                     const uint8_t wIndex,
                                     const uint8_t Recipient,
@@ -317,8 +416,7 @@ uint16_t USB_GetOSFeatureDescriptor(const uint8_t InterfaceNumber,
   switch (wIndex) {
   case EXTENDED_COMPAT_ID_DESCRIPTOR:
     if (Recipient ==
-        REQREC_DEVICE) { /* Ignore InterfaceNumber as this is a
-                                                                                Device Request */
+        REQREC_DEVICE) { /* Ignore InterfaceNumber as this is a Device Request */
       Address = &DevCompatIDs;
       Size = DevCompatIDs.TotalLength;
     }

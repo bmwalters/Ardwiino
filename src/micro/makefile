@@ -17,7 +17,7 @@ F_USB        = $(F_CPU)
 OPTIMIZATION = s
 SRC = $(shell find ../shared -type f -name '*.c' -not -path "../shared/lufa/lufa/*") $(shell find ../shared -type f -name '*.cpp' -not -path "../shared/lufa/lufa/*") $(shell find . -type f -name '*.c') $(shell find . -type f -name '*.cpp') $(LUFA_SRC_USBCLASS) $(LUFA_SRC_USB)
 LUFA_PATH    = ../shared/lufa/lufa/LUFA
-CC_FLAGS     = -DUSE_LUFA_CONFIG_HEADER -I../shared/lufa/ 
+CC_FLAGS     = -DUSE_LUFA_CONFIG_HEADER -I../shared/lufa/
 CPP_FLAGS	 = -std=c++11
 LD_FLAGS     =
 OBJDIR		 = obj
@@ -25,6 +25,7 @@ BIN		 	 = bin
 TARGET       = $(BIN)/Ardwiino
 AVRDUDE_PROGRAMMER = avr109
 AVRDUDE_FLAGS = -P /dev/ttyACM0 reset
+
 # ----- No changes should be necessary below this line -----
 $(info $(SRC))
 $(info $(shell mkdir -p $(BIN)))

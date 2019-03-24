@@ -1,6 +1,5 @@
 #include "./Direct.h"
 void Direct::read_controller(Controller *controller) {
-#if DEVICE_TYPE == DIRECT
   bit_write(IO::digitalRead(PIN_GREEN_FRET) == FRETS_LED, controller->buttons,
             GREEN);
   bit_write(IO::digitalRead(PIN_RED_FRET) == FRETS_LED, controller->buttons,
@@ -32,14 +31,11 @@ void Direct::read_controller(Controller *controller) {
   bit_write(!IO::digitalRead(PIN_STRUM_UP_BUTTON), controller->buttons, UP);
   bit_write(!IO::digitalRead(PIN_STRUM_DOWN_BUTTON), controller->buttons, DOWN);
   bit_write(!IO::digitalRead(PIN_DPAD_LEFT_BUTTON), controller->buttons, LEFT);
-  bit_write(!IO::digitalRead(PIN_DPAD_RIGHT_BUTTON), controller->buttons,
-            RIGHT);
-#endif
+  bit_write(!IO::digitalRead(PIN_DPAD_RIGHT_BUTTON), controller->buttons, RIGHT);
 #endif
 }
 
 void Direct::init() {
-#if DEVICE_TYPE == DIRECT
   int fret_type = INPUT_PULLUP;
 #if FRETS_LED == 1
   fret_type = INPUT;
@@ -61,5 +57,6 @@ void Direct::init() {
   IO::pinMode(PIN_DPAD_LEFT_BUTTON, INPUT_PULLUP);
   IO::pinMode(PIN_DPAD_RIGHT_BUTTON, INPUT_PULLUP);
 #endif
-#endif
+  IO::pinMode(PIN_DPAD_LED, OUTPUT);
+  IO::pinMode(PIN_BOARD_LED, OUTPUT);
 }

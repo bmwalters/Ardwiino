@@ -9,8 +9,31 @@ int IO::digitalRead(uint8_t pin) {
 
   if (*portInputRegister(port) & bit)
     return 1;
+
   return 0;
 }
+
+void IO::digitalWrite(uint8_t pin, uint8_t val) {
+  uint8_t bit = digitalPinToBitMask(pin);
+  uint8_t port = digitalPinToPort(pin);
+  volatile uint8_t *out;
+
+  if (port == NOT_A_PIN) return;
+
+  out = portOutputRegister(port);
+
+  uint8_t oldSREG = SREG;
+  cli();
+
+  if (val == 0) {
+    *out &= ~bit;
+  } else {
+    *out |= bit;
+  }
+
+  SREG = oldSREG;
+}
+
 int IO::analogRead(uint8_t pin) {
   uint8_t low, high;
 

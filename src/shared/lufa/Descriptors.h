@@ -17,11 +17,13 @@ enum registry_props_type {
 };
 /* Macros: */
 /** Endpoint address of the Joystick HID reporting IN endpoint. */
+#define JOYSTICK_EPADDR (ENDPOINT_DIR_IN | 1)
 #define JOYSTICK_EPADDR_IN (ENDPOINT_DIR_IN | 1)
 #define KEYBOARD_EPADDR (ENDPOINT_DIR_IN | 1)
 
 /** Size in bytes of the Keyboard HID reporting IN endpoint. */
 #define KEYBOARD_EPSIZE 8
+#define JOYSTICK_EPSIZE 8
 #define REQ_GetOSFeatureDescriptor 0x20
 
 /** Descriptor index for a Microsoft Proprietary Extended Device Compatibility
@@ -94,6 +96,15 @@ typedef struct {
   USB_HID_Descriptor_HID_t HID_KeyboardHID;
   USB_Descriptor_Endpoint_t HID_ReportINEndpoint;
 } USB_Descriptor_Configuration_t;
+#elif OUTPUT_TYPE == GAMEPAD
+typedef struct {
+  USB_Descriptor_Configuration_Header_t Config;
+
+  // Keyboard HID Interface
+  USB_Descriptor_Interface_t HID_Interface;
+  USB_HID_Descriptor_HID_t HID_GamepadHID;
+  USB_Descriptor_Endpoint_t HID_ReportINEndpoint;
+} USB_Descriptor_Configuration_t;
 
 #endif
 /** Enum for the device interface descriptor IDs within the device. Each
@@ -102,6 +113,7 @@ typedef struct {
  */
 enum InterfaceDescriptors_t {
   INTERFACE_ID_Keyboard = 0, /**< Keyboard interface descriptor ID */
+  INTERFACE_ID_Joystick = 1, /**< Joystick interface desciptor ID */
 };
 
 /** Enum for the device string descriptor IDs within the device. Each string

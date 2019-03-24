@@ -1,9 +1,13 @@
 #include "OutputHandler.h"
+
 #if OUTPUT_TYPE == XINPUT
   XInputOutput OutputHandler::output;
+#elif OUTPUT_TYPE == GAMEPAD
+  GamepadOutput OutputHandler::output;
 #elif OUTPUT_TYPE == KEYBOARD
   KeyboardOutput OutputHandler::output;
 #endif
+
 void OutputHandler::process(Controller *controller) {
   if (bit_check(controller->buttons, START) &&
       bit_check(controller->buttons, SELECT)) {

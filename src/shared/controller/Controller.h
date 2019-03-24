@@ -1,8 +1,6 @@
 #pragma once
 #include "../../config/config.h"
 #include "../bootloader/Bootloader.h"
-#include "../mpu6050/inv_mpu.h"
-#include "../mpu6050/mpu.h"
 #include "../util.h"
 #include <stdint.h>
 #define GREEN 0

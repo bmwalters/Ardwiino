@@ -26,6 +26,8 @@ USB_ClassInfo_HID_Device_t Gamepad_HID_Interface =
     };
 
 uint16_t last_controller_buttons = 0;
+uint16_t last_controller_r_x = 0;
+uint16_t last_controller_r_y = 0;
 
 GamepadOutput::GamepadOutput() {}
 
@@ -41,6 +43,8 @@ void GamepadOutput::update(Controller controller) {
 
   // grab button state from controller
   last_controller_buttons = controller.buttons;
+  last_controller_r_x = controller.r_x;
+  last_controller_r_y = controller.r_y;
   if (controller.r_x < -8000) {
     bit_set(last_controller_buttons, K_WHAMMY);
   }
@@ -84,6 +88,9 @@ bool CALLBACK_HID_Device_CreateHIDReport(
 
   // update report
   JoystickReport->Button = last_controller_buttons;
+
+  JoystickReport->r_x = last_controller_r_x;
+  JoystickReport->r_y = last_controller_r_y;
 
   *ReportSize = sizeof(USB_GamepadReport_Data_t);
 

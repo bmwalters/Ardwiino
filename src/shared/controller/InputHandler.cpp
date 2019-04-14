@@ -1,14 +1,16 @@
 #include "InputHandler.h"
 void InputHandler::process() {
   input.read_controller(&controller);
-  // processTilt();
+  processTilt();
 }
 void InputHandler::init() {
   input.init();
-  // IO::pinMode(PIN_GRAVITY, INPUT);
-  // IO::enableADC();
+#if TILT_SENSOR == GRAVITY
+  IO::pinMode(PIN_GRAVITY, INPUT_PULLUP);
+  IO::enableADC();
+#endif
 }
 
 void InputHandler::processTilt() {
-  // controller.r_y = IO::digitalRead(PIN_GRAVITY) * 32767;
+  controller.r_y = IO::digitalRead(PIN_GRAVITY) * 32767;
 }

@@ -10,22 +10,22 @@
 #define GAMEPAD 3
 #define OUTPUT_TYPE GAMEPAD  // this can be either XINPUT, GAMEPAD, or KEYBOARD
 
-#define PIN_GREEN_FRET 4
-#define PIN_RED_FRET 5
-#define PIN_YELLOW_FRET 7
-#define PIN_BLUE_FRET 6
-#define PIN_ORANGE_FRET 16
-#define PIN_START_BUTTON 8
-#define PIN_SELECT_BUTTON 9
-#define PIN_WHAMMY_POTENIOMETER 18
-#define PIN_STRUM_UP_BUTTON 14
-#define PIN_STRUM_DOWN_BUTTON 15
-#define PIN_DPAD_LED 2
-#define PIN_DPAD_LEFT_BUTTON 10
-#define PIN_DPAD_RIGHT_BUTTON 21
-#define PIN_JOYSTICK_X_POTENIOMETER 19
+#define PIN_GREEN_FRET 9
+#define PIN_RED_FRET 10
+#define PIN_YELLOW_FRET 11
+#define PIN_BLUE_FRET 12
+#define PIN_ORANGE_FRET 13
+#define PIN_START_BUTTON 2
+#define PIN_SELECT_BUTTON 3
+#define PIN_WHAMMY_POTENTIOMETER 18
+#define PIN_STRUM_UP_BUTTON 8
+#define PIN_STRUM_DOWN_BUTTON 7
+#define PIN_DPAD_LED 20
+#define PIN_DPAD_LEFT_BUTTON 20
+#define PIN_DPAD_RIGHT_BUTTON 20
+#define PIN_JOYSTICK_X_POTENIOMETER 20
 #define PIN_JOYSTICK_Y_POTENIOMETER 20
-#define PIN_BOARD_LED 13
+#define PIN_BOARD_LED 20 // 13
 
 // Set this to JOY if your controller has a joystick, and set Joy X and Joy Y to
 // the X and Y for your joystick Set this to DPAD if your controller has a DPAD,
@@ -64,5 +64,5 @@
 #endif
 
 #if TILT_SENSOR == GRAVITY
-#define PIN_GRAVITY 11
+#define PIN_GRAVITY 19
 #endif

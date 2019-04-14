@@ -22,6 +22,8 @@
  */
 typedef struct
 {
+  uint16_t r_x;
+  uint16_t r_y;
   uint16_t Button; /**< Bit mask of the currently pressed gamepad buttons */
 } USB_GamepadReport_Data_t;
 

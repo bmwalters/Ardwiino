@@ -13,7 +13,7 @@ void Direct::read_controller(Controller *controller) {
   bit_write(!IO::digitalRead(PIN_START_BUTTON), controller->buttons, START);
   bit_write(!IO::digitalRead(PIN_SELECT_BUTTON), controller->buttons, SELECT);
   controller->r_x =
-      (IO::analogRead(PIN_WHAMMY_POTENIOMETER) * 32) * INVERT_WHAMMY
+      (IO::analogRead(PIN_WHAMMY_POTENTIOMETER) * 32) * INVERT_WHAMMY
           ? -1
           : 1 + WHAMMY_INITIAL_VALUE;
 #if DIRECTION_MODE == JOY
@@ -49,7 +49,7 @@ void Direct::init() {
   IO::pinMode(PIN_SELECT_BUTTON, INPUT_PULLUP);
   IO::pinMode(PIN_STRUM_UP_BUTTON, INPUT_PULLUP);
   IO::pinMode(PIN_STRUM_DOWN_BUTTON, INPUT_PULLUP);
-  IO::pinMode(PIN_WHAMMY_POTENIOMETER, INPUT);
+  IO::pinMode(PIN_WHAMMY_POTENTIOMETER, INPUT);
 #if DIRECTION_MODE == JOY
   IO::pinMode(PIN_JOYSTICK_X_POTENIOMETER, INPUT);
   IO::pinMode(PIN_JOYSTICK_Y_POTENIOMETER, INPUT);

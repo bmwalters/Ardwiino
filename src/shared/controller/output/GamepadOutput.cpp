@@ -48,9 +48,9 @@ void GamepadOutput::update(Controller controller) {
   if (controller.r_x < -8000) {
     bit_set(last_controller_buttons, K_WHAMMY);
   }
-  if (controller.r_y == 32767) {
-    bit_set(last_controller_buttons, SELECT);
-  }
+  // if (controller.r_y == 32767) {
+  //   bit_set(last_controller_buttons, SELECT);
+  // }
 
   HID_Device_USBTask(&Gamepad_HID_Interface);
 }

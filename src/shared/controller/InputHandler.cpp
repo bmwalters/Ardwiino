@@ -12,5 +12,5 @@ void InputHandler::init() {
 }
 
 void InputHandler::processTilt() {
-  controller.r_y = IO::digitalRead(PIN_GRAVITY) * 32767;
+  controller.r_y = !IO::digitalRead(PIN_GRAVITY) * 32767;
 }

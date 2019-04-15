@@ -20,12 +20,16 @@
 #define PIN_WHAMMY_POTENTIOMETER 18
 #define PIN_STRUM_UP_BUTTON 8
 #define PIN_STRUM_DOWN_BUTTON 7
-#define PIN_DPAD_LED 20
-#define PIN_DPAD_LEFT_BUTTON 20
-#define PIN_DPAD_RIGHT_BUTTON 20
-#define PIN_JOYSTICK_X_POTENIOMETER 20
-#define PIN_JOYSTICK_Y_POTENIOMETER 20
-#define PIN_BOARD_LED 20 // 13
+#define PIN_DPAD_LED 0
+#define PIN_DPAD_LEFT_BUTTON 0
+#define PIN_DPAD_RIGHT_BUTTON 0
+#define PIN_JOYSTICK_X_POTENIOMETER 0
+#define PIN_JOYSTICK_Y_POTENIOMETER 0
+#define PIN_BOARD_LED 0 // 13
+
+#if TILT_SENSOR == GRAVITY
+#define PIN_GRAVITY 19
+#endif
 
 // Set this to JOY if your controller has a joystick, and set Joy X and Joy Y to
 // the X and Y for your joystick Set this to DPAD if your controller has a DPAD,
@@ -61,8 +65,4 @@
 #define KEY_RIGHT HID_KEYBOARD_SC_RIGHT_ARROW
 #define KEY_UP HID_KEYBOARD_SC_UP_ARROW
 #define KEY_DOWN HID_KEYBOARD_SC_DOWN_ARROW
-#endif
-
-#if TILT_SENSOR == GRAVITY
-#define PIN_GRAVITY 19
 #endif

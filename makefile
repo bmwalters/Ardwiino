@@ -2,8 +2,6 @@ all:
 
 micro:
 	$(MAKE) -C src/micro
-	stty -F /dev/ttyACM0 1200
-	sleep 1
 	$(MAKE) -C src/micro avrdude
 
 uno:

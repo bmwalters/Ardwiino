@@ -435,8 +435,8 @@ const USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor = {
     },
   }
 };
-#define ARDWIINO_VID 0x1209
-#define ARDWIINO_PID 0x2882
+#define ARDWIINO_VID 5168
+#define ARDWIINO_PID 18248
 const USB_Descriptor_Device_t PROGMEM deviceDescriptor = {
   Header : {Size : sizeof(USB_Descriptor_Device_t), Type : DTYPE_Device},
 

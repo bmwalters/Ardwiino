@@ -2,7 +2,7 @@
 #include "../leds/led_colours.h"
 #include "./defines.h"
 #define CONFIG_VERSION 2
-#define TILT_SENSOR NONE
+#define TILT_SENSOR DIGITAL
 #define DEVICE_TYPE DIRECT
 #define OUTPUT_TYPE XINPUT_GUITAR_HERO_GUITAR
 #define POLL_RATE 1
@@ -39,12 +39,12 @@
 #define MPU_6050_ORIENTATION NEGATIVE_X
 #define PINS                                                                   \
   {                                                                            \
-    INVALID_PIN, INVALID_PIN, INVALID_PIN, INVALID_PIN, INVALID_PIN,           \
-        INVALID_PIN, INVALID_PIN, INVALID_PIN, INVALID_PIN, INVALID_PIN,       \
-        INVALID_PIN, INVALID_PIN, INVALID_PIN, INVALID_PIN, INVALID_PIN,       \
+    14, 15, INVALID_PIN, INVALID_PIN, 3,           \
+        4, 7, 5, 6, 8,       \
+        INVALID_PIN, INVALID_PIN, 9, INVALID_PIN, INVALID_PIN,       \
         INVALID_PIN, {INVALID_PIN, false}, {INVALID_PIN, false},               \
-        {INVALID_PIN, false}, {INVALID_PIN, false}, {INVALID_PIN, false}, {    \
-      INVALID_PIN, false                                                       \
+        {INVALID_PIN, false}, {18, false}, {INVALID_PIN, false}, {    \
+      2, false                                                       \
     }                                                                          \
   }
 #define FIRMWARE ARDWIINO_DEVICE_TYPE

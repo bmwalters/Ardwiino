@@ -71,15 +71,15 @@ int main(void) {
   loadConfig();
   deviceType = config.main.subType;
   initInputs();
-  initLEDs();
+  // initLEDs();
   initReports();
   USB_Init();
   sei();
   uint16_t size;
-  uint16_t bytesReceived;
+  //uint16_t bytesReceived;
   while (true) {
     tickInputs(&controller);
-    tickLEDs(&controller);
+    // tickLEDs(&controller);
     fillReport(&currentReport, &size, &controller);
     if (memcmp(&currentReport, &previousReport, size) != 0) {
       memcpy(&previousReport, &currentReport, size);
@@ -90,19 +90,19 @@ int main(void) {
       }
     }
 
-    bytesReceived = CDC_Device_BytesReceived(&serialInterface);
-    while (bytesReceived--) {
-      processSerialData(CDC_Device_ReceiveByte(&serialInterface) & 0xff);
-    }
-    if (foundPin) {
-      foundPin = false;
-      writeToSerial('d');
-      writeToSerial(detectedPin);
-      writeToSerial('\r');
-      writeToSerial('\n');
-    }
-    CDC_Device_USBTask(&serialInterface);
-    MIDI_Device_USBTask(&midiInterface);
+    // bytesReceived = CDC_Device_BytesReceived(&serialInterface);
+    // while (bytesReceived--) {
+    //   processSerialData(CDC_Device_ReceiveByte(&serialInterface) & 0xff);
+    // }
+    // if (foundPin) {
+    //   foundPin = false;
+    //   writeToSerial('d');
+    //   writeToSerial(detectedPin);
+    //   writeToSerial('\r');
+    //   writeToSerial('\n');
+    // }
+    // CDC_Device_USBTask(&serialInterface);
+    // MIDI_Device_USBTask(&midiInterface);
   }
 }
 
